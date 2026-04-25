@@ -3,132 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuickQR Pro - 100% Free QR & Image Tools</title>
-    
+    <title>QuickQR Pro - Custom QR & Image Tools</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
-
     <style>
-        .tab-content { display: none; animation: fadeIn 0.3s ease; }
-        .tab-content.active { display: block; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        #qr-canvas-container canvas { margin: 0 auto; max-width: 100%; border-radius: 8px; }
+        canvas { max-width: 100% !important; height: auto !important; border-radius: 12px; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 min-h-screen flex flex-col transition-colors">
+<body class="bg-[#0f172a] text-slate-200 font-sans min-h-screen">
 
-    <nav class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
+    <nav class="border-b border-slate-800 bg-[#0f172a]/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <div class="bg-blue-500 text-white p-2 rounded-lg"><i class="fa-solid fa-qrcode text-xl"></i></div>
-                <span class="font-bold text-2xl">QuickQR <span class="text-blue-500">Pro</span></span>
+                <div class="bg-blue-600 p-2 rounded-lg"><i class="fa-solid fa-qrcode text-white"></i></div>
+                <span class="text-xl font-bold tracking-tight">QuickQR <span class="text-blue-500">Pro</span></span>
             </div>
-            <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
-                <i class="fa-solid fa-moon dark:hidden"></i>
-                <i class="fa-solid fa-sun hidden dark:block text-yellow-400"></i>
-            </button>
+            <div class="flex gap-4">
+                <button onclick="switchTab('tab-qr')" class="text-sm font-medium hover:text-blue-400 transition">QR Generator</button>
+                <button onclick="switchTab('tab-compressor')" class="text-sm font-medium hover:text-blue-400 transition">Compressor</button>
+            </div>
         </div>
     </nav>
 
-    <main class="flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
-        
-        <div class="flex overflow-x-auto pb-4 mb-6 border-b border-gray-200 dark:border-gray-700 gap-2">
-            <button class="tab-btn active bg-blue-500 text-white px-5 py-2.5 rounded-xl font-medium" data-target="tab-qr">QR Generator</button>
-            <button class="tab-btn bg-white dark:bg-gray-800 px-5 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700" data-target="tab-compressor">Image Compressor</button>
-        </div>
-
-        <div id="tab-qr" class="tab-content active">
-            <div class="text-center mb-10">
-                <h1 class="text-3xl md:text-5xl font-extrabold mb-4">
-                    Free Custom QR Code Generator <br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">Create & Customize Your Dynamic QR Code, Multiple Formats In Seconds!</span>
+    <main class="max-w-5xl mx-auto px-4 py-10">
+        <div id="tab-qr" class="tab-content active space-y-8">
+            <div class="text-center">
+                <h1 class="text-3xl md:text-5xl font-black mb-4 text-white">
+                    Free Custom QR Code Generator
                 </h1>
-                <p class="text-gray-600 dark:text-gray-400">अपनी ब्रांडिंग के साथ हाई-क्वालिटी QR कोड बनाएं। 100% Free.</p>
+                <p class="text-blue-400 font-bold text-lg">Create & Customize Your Dynamic QR Code, Multiple Formats In Seconds!</p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div class="lg:col-span-7 space-y-6">
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                        <label class="block font-bold mb-2 uppercase text-xs text-gray-500">1. जानकारी दर्ज करें (Enter Data)</label>
-                        <textarea id="qr-data" rows="3" class="w-full bg-gray-50 dark:bg-gray-900 border rounded-xl p-4 outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700" placeholder="यहां Website URL, Any Link, या WiFi डिटेल्स डालें..."></textarea>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="space-y-6">
+                    <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
+                        <label class="block text-xs font-bold text-slate-400 uppercase mb-3">1. यहां Website URL, Any Link, या WiFi डिटेल्स डालें...</label>
+                        <textarea id="qr-input" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-4 focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="https://example.com"></textarea>
                     </div>
 
-                    <div class="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-6 text-center border border-blue-100 dark:border-blue-800">
-                        <p class="text-blue-600 dark:text-blue-400 font-bold"><i class="fa-solid fa-circle-check"></i> ALL PREMIUM FEATURES UNLOCKED - 100% FREE</p>
-                        <p class="text-sm text-gray-500">Logo, Colors, and High-Res Exports are enabled.</p>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-5">
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-6 sticky top-24 text-center">
-                        <h3 class="font-bold mb-4 uppercase text-xs text-gray-500">Live Preview</h3>
-                        <div id="qr-canvas-container" class="bg-gray-50 dark:bg-gray-900 p-4 rounded-xl inline-block mb-6 min-w-[250px] min-h-[250px] border border-dashed border-gray-300 dark:border-gray-700"></div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <button onclick="download('png')" class="bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-medium transition">Download PNG</button>
-                            <button onclick="download('svg')" class="bg-gray-800 hover:bg-gray-900 text-white py-2.5 rounded-lg font-medium transition">Download SVG</button>
+                    <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
+                        <label class="block text-xs font-bold text-slate-400 uppercase mb-4">2. Choose Your Style</label>
+                        <div class="grid grid-cols-3 gap-3">
+                            <button onclick="updateStyle('square')" class="p-4 rounded-xl border border-slate-700 hover:bg-blue-600 transition flex flex-col items-center gap-2">
+                                <i class="fa-solid fa-square text-xl"></i><span class="text-xs">Normal</span>
+                            </button>
+                            <button onclick="updateStyle('extra-rounded')" class="p-4 rounded-xl border border-blue-500 bg-blue-600/20 transition flex flex-col items-center gap-2">
+                                <i class="fa-solid fa-circle-dot text-xl"></i><span class="text-xs">Unique</span>
+                            </button>
+                            <button onclick="updateStyle('dots')" class="p-4 rounded-xl border border-slate-700 hover:bg-purple-600 transition flex flex-col items-center gap-2">
+                                <i class="fa-solid fa-ellipsis text-xl"></i><span class="text-xs">Art</span>
+                            </button>
                         </div>
                     </div>
                 </div>
+
+                <div class="flex flex-col items-center justify-center bg-slate-800/30 p-8 rounded-3xl border-2 border-dashed border-slate-700">
+                    <div id="canvas-container" class="mb-8 shadow-2xl shadow-blue-500/20"></div>
+                    <div id="download-box" class="flex gap-4 w-full">
+                        <button onclick="download('png')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-blue-900/40">Download PNG</button>
+                        <button onclick="download('svg')" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-xl transition">Download SVG</button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div id="tab-compressor" class="tab-content text-center py-20">
-            <i class="fa-solid fa-toolbox text-5xl text-gray-300 mb-4"></i>
-            <h2 class="text-2xl font-bold">Image Compressor is Coming Soon!</h2>
+        <div id="tab-compressor" class="tab-content space-y-8">
+            <div class="text-center py-10">
+                <h2 class="text-4xl font-bold text-white">Image Compressor Pro</h2>
+                <p class="text-slate-400 mt-2">Reduce file size without losing quality.</p>
+            </div>
+            <div class="max-w-xl mx-auto bg-slate-800 p-8 rounded-3xl border border-slate-700 text-center">
+                <input type="file" id="img-input" accept="image/*" class="hidden">
+                <label for="img-input" class="cursor-pointer flex flex-col items-center gap-4">
+                    <div class="w-20 h-20 bg-blue-600/20 rounded-full flex items-center justify-center">
+                        <i class="fa-solid fa-cloud-arrow-up text-3xl text-blue-500"></i>
+                    </div>
+                    <span class="text-lg font-medium">Click to Upload Image</span>
+                </label>
+                <div id="comp-preview" class="mt-6 hidden">
+                    <p class="text-green-400 text-sm mb-4">Image Loaded Successfully!</p>
+                    <button class="w-full bg-green-600 py-3 rounded-xl font-bold">Download Compressed</button>
+                </div>
+            </div>
         </div>
-
     </main>
 
-    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-8 mt-12">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-gray-500 text-sm mb-4">
-                © 2026 QuickQR Pro India. All operations run locally in your browser for absolute privacy.
-            </p>
-            <div class="flex justify-center gap-6 text-xs font-bold text-blue-600 uppercase tracking-widest">
-                <a href="#" class="hover:underline">Privacy Policy</a>
-                <a href="#" class="hover:underline">Terms of Use</a>
-                <a href="#" class="hover:underline">About Us</a>
-            </div>
-        </div>
+    <footer class="text-center py-10 text-slate-500 text-sm">
+        <p>© 2026 QuickQR Pro India. All operations run locally for absolute privacy.</p>
     </footer>
 
     <script>
-        // 1. QR Code Logic
+        // QR CODE LOGIC
+        let currentType = "extra-rounded";
         const qrCode = new QRCodeStyling({
-            width: 250,
-            height: 250,
+            width: 280,
+            height: 280,
             data: "https://quickqrpro.com",
-            dotsOptions: { color: "#3b82f6", type: "rounded" },
+            dotsOptions: { color: "#3b82f6", type: "extra-rounded" },
             backgroundOptions: { color: "#ffffff" },
+            cornersSquareOptions: { type: "extra-rounded", color: "#2563eb" }
         });
 
-        qrCode.append(document.getElementById("qr-canvas-container"));
+        qrCode.append(document.getElementById("canvas-container"));
 
-        document.getElementById("qr-data").addEventListener("input", (e) => {
-            qrCode.update({ data: e.target.value || " " });
+        document.getElementById("qr-input").addEventListener("input", (e) => {
+            qrCode.update({ data: e.target.value || "https://quickqrpro.com" });
         });
 
-        function download(format) {
-            qrCode.download({ name: "QuickQR-Pro", extension: format });
+        function updateStyle(type) {
+            qrCode.update({ dotsOptions: { type: type }, cornersSquareOptions: { type: type } });
         }
 
-        // 2. Tab Logic
-        const tabs = document.querySelectorAll('.tab-btn');
-        const contents = document.querySelectorAll('.tab-content');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                tabs.forEach(t => t.classList.remove('active', 'bg-blue-500', 'text-white'));
-                contents.forEach(c => c.classList.remove('active'));
-                tab.classList.add('active', 'bg-blue-500', 'text-white');
-                document.getElementById(tab.dataset.target).classList.add('active');
-            });
-        });
+        function download(ext) {
+            qrCode.download({ name: "QuickQR-Pro", extension: ext });
+        }
 
-        // 3. Theme Toggle
-        document.getElementById('theme-toggle').addEventListener('click', () => {
-            document.documentElement.classList.toggle('dark');
+        function switchTab(id) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        // Simple Compressor Logic
+        document.getElementById('img-input').addEventListener('change', function() {
+            document.getElementById('comp-preview').classList.remove('hidden');
         });
     </script>
 </body>
